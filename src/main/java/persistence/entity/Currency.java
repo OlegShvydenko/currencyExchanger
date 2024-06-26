@@ -1,4 +1,4 @@
-package entity;
+package persistence.entity;
 
 public class Currency {
     private int id;
@@ -6,15 +6,15 @@ public class Currency {
     private String code;
     private String sign;
 
-    public Currency(String code, String fullName, String sign) {
-        this.name = fullName;
+    public Currency(String name, String code, String sign) {
+        this.name = name;
         this.code = code;
         this.sign = sign;
     }
 
-    public Currency(int id, String code, String fullName, String sign) {
+    public Currency(int id, String name, String code, String sign) {
         this.id = id;
-        this.name = fullName;
+        this.name = name;
         this.code = code;
         this.sign = sign;
     }

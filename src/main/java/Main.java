@@ -1,9 +1,5 @@
-import entity.ExchangeRate;
-import repository.ExchangeRateRepository;
 import service.ExchangeRateService;
-import util.DbConnector;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {

@@ -1,16 +1,30 @@
-package repository;
+package persistence.repository;
 
-import util.DbConnector;
-import entity.Currency;
-import entity.ExchangeRate;
+import mapper.DtoMapper;
+import persistence.DbConnector;
+import persistence.entity.Currency;
+import persistence.entity.ExchangeRate;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExchangeRateRepository {
-    DbConnector dbConnector = new DbConnector();
-    Connection connection = dbConnector.getConnection();
+    DbConnector dbConnector;
+    Connection connection;
+    DtoMapper dtoMapper;
+
+    public ExchangeRateRepository(DbConnector dbConnector, Connection connection, DtoMapper dtoMapper) {
+        this.dbConnector = dbConnector;
+        this.connection = connection;
+        this.dtoMapper = dtoMapper;
+    }
+
+    public ExchangeRateRepository() {
+        this.dbConnector = new DbConnector();
+        this.connection = dbConnector.getConnection();
+        this.dtoMapper = new DtoMapper();
+    }
 
     public List<ExchangeRate> getAllExchangeRates() throws SQLException {
         List<ExchangeRate> exchangeRates = new ArrayList<>();
@@ -21,7 +35,7 @@ public class ExchangeRateRepository {
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                exchangeRates.add(getExchangeRateFromQuery(rs));
+                exchangeRates.add(dtoMapper.mapExchangeRate(rs));
             }
             return exchangeRates;
         }
@@ -41,30 +55,10 @@ public class ExchangeRateRepository {
             statement.setString(2, targetCurrencyCode);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                exchangeRate = getExchangeRateFromQuery(rs);
+                exchangeRate = dtoMapper.mapExchangeRate(rs);
             }
         }
         return exchangeRate;
-    }
-
-    private ExchangeRate getExchangeRateFromQuery(ResultSet resultSet) throws SQLException {
-        int exchangeRateId = resultSet.getInt(1);
-
-        int currencyId = resultSet.getInt(2);
-        String currencyCode = resultSet.getString(3);
-        String currencyFullName = resultSet.getString(4);
-        String currencySign = resultSet.getString(5);
-        Currency baseCurrency = new Currency(currencyId, currencyCode, currencyFullName, currencySign);
-
-        currencyId = resultSet.getInt(6);
-        currencyCode = resultSet.getString(7);
-        currencyFullName = resultSet.getString(8);
-        currencySign = resultSet.getString(9);
-        Currency targetCurrency = new Currency(currencyId, currencyCode, currencyFullName, currencySign);
-
-        double rate = resultSet.getDouble(10);
-
-        return new ExchangeRate(exchangeRateId, baseCurrency, targetCurrency, rate);
     }
 
     public ExchangeRate addNewExchangeRate(String baseCurrencyCode, String targetCurrencyCode, double rate)
@@ -104,7 +98,7 @@ public class ExchangeRateRepository {
         if (rate != 0 && getRateByCode(to, from) != 0) return rate;
         double rateFromUSD = getRateByCode("USD", from);
         double rateTOUSD = getRateByCode("USD", to);
-        if(rateFromUSD != 0) return rateTOUSD / rateFromUSD;
+        if (rateFromUSD != 0) return rateTOUSD / rateFromUSD;
         return 0;
     }
 

@@ -1,4 +1,4 @@
-package entity;
+package persistence.entity;
 
 public class ExchangeRate {
     private int id;
