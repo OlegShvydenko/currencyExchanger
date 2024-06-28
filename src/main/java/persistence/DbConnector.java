@@ -13,7 +13,7 @@ public class DbConnector {
         try {
             // db parameters
             DriverManager.registerDriver(new org.sqlite.JDBC());
-            String url = "jdbc:sqlite:C:\\Users\\Oleg Kofevar\\IdeaProjects\\ru.course.currencyexchanger\\src\\main\\resources\\db\\currencyExchangerDB";
+            String url = "jdbc:sqlite:C:\\Users\\Oleg Kofevar\\IdeaProjects\\ru\\course\\currency-exchanger\\src\\main\\resources\\db\\currencyExchangerDB";
             // create a connection to the database
             connection = DriverManager.getConnection(url);
 

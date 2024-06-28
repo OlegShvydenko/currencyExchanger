@@ -52,8 +52,15 @@ public class RequestMapper {
     }
 
     public double mapRate(HttpServletRequest req) {
-        if (Objects.equals(req.getParameter("rate"), "")) throw new IllegalArgumentException();
-        return Double.parseDouble(req.getParameter("rate"));
+        double rate;
+        try {
+            rate = Double.parseDouble(req.getParameter("rate"));
+        }
+        catch (Exception e){
+            throw new IllegalArgumentException();
+        }
+
+        return rate;
     }
 
     public double mapDouble(String string){

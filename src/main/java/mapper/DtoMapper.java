@@ -24,13 +24,13 @@ public class DtoMapper {
         String currencyCode = rs.getString(3);
         String currencyFullName = rs.getString(4);
         String currencySign = rs.getString(5);
-        Currency baseCurrency = new Currency(currencyId, currencyCode, currencyFullName, currencySign);
+        Currency baseCurrency = new Currency(currencyId, currencyFullName, currencyCode, currencySign);
 
         currencyId = rs.getInt(6);
         currencyCode = rs.getString(7);
         currencyFullName = rs.getString(8);
         currencySign = rs.getString(9);
-        Currency targetCurrency = new Currency(currencyId, currencyCode, currencyFullName, currencySign);
+        Currency targetCurrency = new Currency(currencyId, currencyFullName, currencyCode, currencySign);
 
         double rate = rs.getDouble(10);
 

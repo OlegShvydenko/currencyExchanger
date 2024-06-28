@@ -9,7 +9,7 @@
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
     <version>1.0-SNAPSHOT</version>
-    <name>ru.course.currency-exchanger Maven Webapp</name>
+    <name>currency-exchanger Maven Webapp</name>
     <url>https://maven.apache.org</url>
 
     <dependencies>
@@ -70,11 +70,22 @@
             <version>2.11.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.4.0</version>
+        </dependency>
 
     </dependencies>
 
 
     <build>
-        <finalName>ru.course.currency-exchanger</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
+        </plugins>
     </build>
 </project>

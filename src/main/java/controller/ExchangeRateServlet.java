@@ -68,8 +68,11 @@ public class ExchangeRateServlet extends HttpServlet {
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ExchangeRate exchangeRate = null;
         try {
+            System.out.println(requestMapper.mapCodes(req));
+            System.out.println(requestMapper.mapRate(req));
             exchangeRate =
                     exchangeRateService.changeExistingRate(requestMapper.mapCodes(req), requestMapper.mapRate(req));
+
             if (exchangeRate == null) {
                 jsonConverter.writeErrorToResponse(404,
                         new Message("Валютная пара отсутствует в базе данных"), resp);
@@ -83,6 +86,7 @@ public class ExchangeRateServlet extends HttpServlet {
         } catch (SQLException e) {
             jsonConverter.writeErrorToResponse(500, new Message("База данных недоступна"), resp);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             jsonConverter.writeErrorToResponse(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     new Message("Сервер недоступен"), resp);
         }
